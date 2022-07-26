@@ -1,34 +1,52 @@
 #include <iostream>
+#include "Game.h"
 
 using namespace std;
 
-int GetIndexFromCoordinates(int x, int y, int width);
-void DrawLevel(char level[], int width, int height);
+void PlayDoorClosedSound();
+void PlayDoorOpenSound();
+void PlayPickupKeySound();
+void PlayWinSound();
+
+
 
 int main()
 {
-    constexpr int kWdith = 25;
-    constexpr int kHeight = 15;
+	Game myGame;
+	if (myGame.Load()) {
+		while (!myGame.IsGameOver()) {
+			myGame.Run();
+		}
+		
+		cout << "YOU WON!!!" << endl;
 
-    char levelArray[]{ '+', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '+',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', '|',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', '|',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', '|',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '+', ' ', ' ', ' ', ' ', '|',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', '|',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', '|',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', '|',
-                        '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'D', ' ', ' ', ' ', ' ', '|',
-                        '+', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '+' };
-
-
+		//PlayWinSound();
+	}
+	else {
+		cout << "Game did not load. Terminating!" << endl;
+	}
 }
-
-int GetIndexFromCoordinates(int x, int y, int width) {
-    return x + y * width;
-}
+//
+//void PlayDoorClosedSound() {
+//    Beep(500, 75);
+//    Beep(500, 75);
+//}
+//
+//void PlayDoorOpenSound() {
+//    Beep(1397, 200);
+//}
+//
+//void PlayPickupKeySound() {
+//    Beep(1568, 200);
+//}
+//
+//void PlayWinSound() {
+//    Beep(1568, 200);
+//    Beep(1568, 200);
+//    Beep(1568, 200);
+//    Beep(1245, 200);
+//    Beep(1397, 200);
+//    Beep(1397, 200);
+//    Beep(1397, 200);
+//    Beep(1175, 200);
+//}
