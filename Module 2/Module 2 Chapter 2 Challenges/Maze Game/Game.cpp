@@ -9,6 +9,7 @@ constexpr int kOpenDoorColor = 10;
 constexpr int kClosedDoorColor = 10;
 constexpr int kRegularColor = 10;
 
+void ClearScreen();
 
 Game::Game()
 	: m_gameOver(false)
@@ -104,7 +105,15 @@ bool Game::Update() {
     return false;
 }
 
+void ClearScreen()
+{
+    COORD cursorPosition;
+    cursorPosition.X = 0;
+    cursorPosition.Y = 0;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
+}
 void Game::Draw() {
+    ClearScreen();
     for (int y = 0; y < m_level.GetHeight(); y++)
     {
         for (int x = 0; x < m_level.GetWidth(); x++)
