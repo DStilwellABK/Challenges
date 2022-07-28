@@ -102,6 +102,8 @@ bool Game::HandleCollision(int newPlayerX, int newPlayerY) {
             // Open the door
             collidedButton->m_doorToOpen.ToggleDoor(true);
 
+            collidedButton->SetButtonStatus(true);
+
             // Set this if it's toggable
             if (collidedButton->ButtonIsToggable())
                 previousButtonPressed = collidedButton;
@@ -114,7 +116,6 @@ bool Game::HandleCollision(int newPlayerX, int newPlayerY) {
                 if (m_player.HasKey(collidedDoor->GetColor())) {
                     // Opens the door
                     collidedDoor->ToggleDoor(true);
-                    collidedButton->SetButtonStatus(false);
                     collidedDoor->Remove();
                     m_player.UseKey();
                     m_player.SetPosition(newPlayerX, newPlayerY);

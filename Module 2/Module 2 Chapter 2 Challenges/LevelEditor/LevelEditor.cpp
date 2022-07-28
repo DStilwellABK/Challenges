@@ -139,7 +139,9 @@ void DisplayLegend() {
 	cout << "v for Vertical moving enemy" << endl;
 	cout << "h for horiontal moving enemy" << endl;
 	cout << "e for non-moving enemy" << endl;
-	cout << "X for end" << endl;
+	cout << "X for end goal" << endl;
+	cout << "1 for Button Door" << endl;
+	cout << "O for Button" << endl;
 	cout << "^ for starting over with new parameters (new width and height" << endl;
 }
 
@@ -152,22 +154,21 @@ States EditLevel(char* levelData, int& cursorX, int& cursorY, int width, int hei
 
 	if (arrowInput == ArrowInput::Regular) {
 		arrowInput = (ArrowInput)_getch();
+		
+		lastInput = arrowInput;
+		// We only want to take the lastArrow input if there was a arrow key pressed
 		switch (arrowInput) {
 			case ArrowInput::LeftArrow:
 				newCursorX--;
-				lastInput = arrowInput;
 				break;
 			case ArrowInput::RightArrow:
 				newCursorX++;
-				lastInput = arrowInput;
 				break;
 			case ArrowInput::UpArrow:
 				newCursorY--;
-				lastInput = arrowInput;
 				break;
 			case ArrowInput::DownArrow:
 				newCursorY++;
-				lastInput = arrowInput;
 				break;
 			default:
 				break;
@@ -214,7 +215,7 @@ States EditLevel(char* levelData, int& cursorX, int& cursorY, int width, int hei
 				else if (lastInput == ArrowInput::RightArrow) {
 					newCursorX++;
 					if (newCursorX == width)
-						newCursorX = width - 1;
+						newCursorX = width - 1;  
 
 					cursorX = newCursorX;
 
@@ -304,6 +305,8 @@ void AddBordersToFinalLevel(char* levelData, int width, int height){
 	levelData[index] = '+';
 
 	// Top Border
+	//Checking if the top and bottom borders are being added properly or if they are causing the issue.
+	// And the same going for the sides.
 	for (int i = 0; i < width; i++)
 	{
 		index = GetIndexFromXY(i, 0, width);

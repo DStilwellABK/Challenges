@@ -7,10 +7,13 @@ public:
 	virtual void Draw() override;
 
 	bool IsOpen() { return m_isOpen; }
-	void Open() { m_isOpen = true; }
+	void ToggleDoor(bool status) { m_isOpen = status; }
+
+	void SetButtonToggable() { m_doorIsButtonToggable = true; }
 
 private:
 	bool m_isOpen;
+	bool m_doorIsButtonToggable;
 	ActorColor m_closedColor;
 
 };

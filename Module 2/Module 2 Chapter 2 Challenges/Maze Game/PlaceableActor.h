@@ -8,9 +8,11 @@ enum class ActorColor {
 	Red = 12,
 	Green = 10,
 	Blue = 9,
+	Gray = 8,
 	SolidRed = 68,
 	SolidGreen = 34,
 	SolidBlue = 153,
+	SolidGray = 113,
 };
 
 class PlaceableActor {

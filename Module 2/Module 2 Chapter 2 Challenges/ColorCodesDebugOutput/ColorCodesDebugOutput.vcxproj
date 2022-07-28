@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{f0cf17d2-6f91-42f0-8ec2-1119ba7f940d}</ProjectGuid>
-    <RootNamespace>MazeGame</RootNamespace>
+    <ProjectGuid>{a305cac6-f644-4bb4-a505-3dc74fc23259}</ProjectGuid>
+    <RootNamespace>ColorCodesDebugOutput</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,30 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="Door.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Goal.cpp" />
-    <ClCompile Include="Key.cpp" />
-    <ClCompile Include="Level.cpp" />
-    <ClCompile Include="Maze Game.cpp" />
-    <ClCompile Include="Money.cpp" />
-    <ClCompile Include="PlaceableActor.cpp" />
-    <ClCompile Include="Player.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="Door.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Goal.h" />
-    <ClInclude Include="Key.h" />
-    <ClInclude Include="Level.h" />
-    <ClInclude Include="Money.h" />
-    <ClInclude Include="PlaceableActor.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Point.h" />
+    <ClCompile Include="ColorCodesDebugOutput.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

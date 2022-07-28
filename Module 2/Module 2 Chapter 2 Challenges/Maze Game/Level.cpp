@@ -10,6 +10,7 @@
 #include "Door.h"
 #include "Goal.h"
 #include "Money.h"
+#include "Button.h"
 
 using namespace std;
 
@@ -107,6 +108,7 @@ void Level::Draw() {
 
 bool Level::Convert(int* playerX, int* playerY) {
     bool anyWarnings = false;
+    Door* doorForButton = nullptr;
     for (int y = 0; y < m_height; y++)
     {
         for (int x = 0; x < m_width; x++)
@@ -149,10 +151,20 @@ bool Level::Convert(int* playerX, int* playerY) {
                 m_pLevelData[index] = ' ';
                 m_pActors.push_back(new Door(x, y, ActorColor::Blue, ActorColor::SolidBlue));
                 break;
-            
+            case '1':
+                m_pLevelData[index] = ' ';
+                doorForButton = new Door(x, y, ActorColor::Gray, ActorColor::SolidGray);
+                m_pActors.push_back(doorForButton);
+                break;
             case '$':
                 m_pLevelData[index] = ' ';
                 m_pActors.push_back(new Money(x,y, 1 + rand() % 5));
+                break;
+            case 'O':
+                m_pLevelData[index] = ' ';
+                if (doorForButton) {
+                    m_pActors.push_back(new Button(x, y, *doorForButton));
+                }
                 break;
 
             case 'e':
