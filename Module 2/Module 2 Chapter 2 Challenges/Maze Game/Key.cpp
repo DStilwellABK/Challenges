@@ -7,8 +7,8 @@ using namespace std;
 
 void Key::Draw() {
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(console, m_color);
+	SetConsoleTextAttribute(console, (int)m_color);
 
 	cout << "+";
-	SetConsoleTextAttribute(console, kRegularColor);
+	SetConsoleTextAttribute(console, (int)ActorColor::Regular);
 }

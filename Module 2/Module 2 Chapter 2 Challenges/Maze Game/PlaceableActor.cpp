@@ -3,7 +3,7 @@
 
 using namespace std;
 
-PlaceableActor::PlaceableActor(int x, int y, int color)
+PlaceableActor::PlaceableActor(int x, int y, ActorColor color)
 	:m_pPosition(new Point(x, y))
 	,m_IsActive(true)
 	,m_color(color)

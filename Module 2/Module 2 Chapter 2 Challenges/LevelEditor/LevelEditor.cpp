@@ -2,6 +2,7 @@
 #include <conio.h>
 #include <windows.h>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -14,15 +15,27 @@ constexpr char kBottomLeftBorder = 200;
 constexpr char kHorizontalBorder = 205;
 constexpr char kVerticalBorder = 186;
 
-constexpr int kArrowInput = 224;
-constexpr int kLeftArrowInput = 75;
-constexpr int kRightArrowInput = 77;
-constexpr int kDownArrowInput = 80;
-constexpr int kUpArrowInput = 72;
+
+
+enum class ArrowInput {
+	Regular = 224,
+	LeftArrow = 75,
+	RightArrow = 77,
+	DownArrow = 80,
+	UpArrow = 72,
+};
+
+enum class States {
+	EDITING,
+	REDO,
+	DONE,
+};
 
 constexpr int kEscapeKey = 27;
 constexpr int kBackspace = 8;
+constexpr int kSpace = 32;
 
+ArrowInput lastInput = ArrowInput::Regular;
 
 void GetLevelDimensions(int& width, int& height);
 void DisplayLevel(char* pLevel, int width, int height, int cursorX, int cursorY);
@@ -34,12 +47,15 @@ void DisplayLeftBorder();
 void DisplayRightBorder();
 void DisplayBottomBorder(int width);
 
-bool EditLevel(char* levelData, int& cursorX, int& cursorY, int width, int height);
+States EditLevel(char* levelData, int& cursorX, int& cursorY, int width, int height);
 
 void SaveLevel(char* pLevel, int width, int height);
 
+void AddBordersToFinalLevel(char* levelData, int width, int height);
+
 void DisplayLegend();
 void ClearScreen();
+
 
 int main()
 {
@@ -58,14 +74,44 @@ int main()
 	int cursorX = 0;
 	int cursorY = 0;
 
-	bool doneEditing = false;
-	while (!doneEditing) {
+	// 1 = Finished editing, 2 = Redo
+	States doneEditing = States::EDITING;
+	while (doneEditing != States::DONE) {
 		ClearScreen();
+
+	
+		if (doneEditing == States::REDO) {
+			// Start over
+
+			system("cls");
+			GetLevelDimensions(levelWidth, levelHeight);
+
+
+			pLevel = new char[levelWidth * levelHeight];
+
+			for (int i = 0; i < levelWidth * levelHeight; i++)
+			{
+				pLevel[i] = ' ';
+			}
+			
+			cursorX = 0;
+			cursorY = 0;
+
+			doneEditing = States::EDITING;
+
+			system("cls");
+
+		}
 		DisplayLevel(pLevel, levelWidth, levelHeight, cursorX, cursorY);
+		
 		DisplayLegend();
 		doneEditing = EditLevel(pLevel, cursorX, cursorY, levelWidth, levelHeight);
+
+
 	}
-	ClearScreen();
+
+	// Display final screen here and save the level
+	system("cls");
 	DisplayLevel(pLevel, levelWidth, levelHeight, cursorX, cursorY);
 
 	SaveLevel(pLevel, levelWidth, levelHeight);
@@ -94,28 +140,34 @@ void DisplayLegend() {
 	cout << "h for horiontal moving enemy" << endl;
 	cout << "e for non-moving enemy" << endl;
 	cout << "X for end" << endl;
+	cout << "^ for starting over with new parameters (new width and height" << endl;
 }
 
-bool EditLevel(char* levelData, int& cursorX, int& cursorY, int width, int heigh) {
+States EditLevel(char* levelData, int& cursorX, int& cursorY, int width, int heigh) {
 	int newCursorX = cursorX;
 	int newCursorY = cursorY;
 
 	int intInput = _getch();
+	ArrowInput arrowInput = (ArrowInput)intInput;
 
-	if (intInput == kArrowInput) {
-		int arrowInput = _getch();
+	if (arrowInput == ArrowInput::Regular) {
+		arrowInput = (ArrowInput)_getch();
 		switch (arrowInput) {
-			case kLeftArrowInput:
+			case ArrowInput::LeftArrow:
 				newCursorX--;
+				lastInput = arrowInput;
 				break;
-			case kRightArrowInput:
+			case ArrowInput::RightArrow:
 				newCursorX++;
+				lastInput = arrowInput;
 				break;
-			case kUpArrowInput:
+			case ArrowInput::UpArrow:
 				newCursorY--;
+				lastInput = arrowInput;
 				break;
-			case kDownArrowInput:
+			case ArrowInput::DownArrow:
 				newCursorY++;
+				lastInput = arrowInput;
 				break;
 			default:
 				break;
@@ -137,28 +189,74 @@ bool EditLevel(char* levelData, int& cursorX, int& cursorY, int width, int heigh
 	}
 	else {
 		if (intInput == kEscapeKey) {
-			return true;
+			return States::DONE;
 		}
 		else if (intInput == kBackspace) {
 			// Ignore
 		}
+		if (intInput == '^') {
+			return States::REDO;
+		}
+		// Else the user is implementing something like a wall, door, goal, key, etc...
 		else {
 			int index = GetIndexFromXY(newCursorX, newCursorY, width);
 			levelData[index] = (char)intInput;
+			if (intInput != kSpace) {
+
+				if (lastInput == ArrowInput::LeftArrow) {
+					newCursorX--;
+					if (newCursorX < 0)
+						newCursorX = 0;
+					
+					cursorX = newCursorX;
+
+				}
+				else if (lastInput == ArrowInput::RightArrow) {
+					newCursorX++;
+					if (newCursorX == width)
+						newCursorX = width - 1;
+
+					cursorX = newCursorX;
+
+				}
+				else if (lastInput == ArrowInput::UpArrow) {
+					newCursorY--;
+					if (newCursorY < 0)
+						newCursorY = 0;
+					cursorY = newCursorY;
+				}
+				else if (lastInput == ArrowInput::DownArrow) {
+					newCursorY++;
+
+					if (newCursorY == width)
+						newCursorY = width - 1;
+
+					cursorY = newCursorY;
+
+
+				}
+				else {
+					newCursorX++;
+					if (newCursorX == width)
+						newCursorX = width - 1;
+
+					cursorX = newCursorX;
+				}
+
+
+			}
 		}
 	}
 
 
 
-	return false;
+	return States::EDITING;
 }
 
 void GetLevelDimensions(int& width, int& height) {
-	cout << "Please enter the width of your level: ";
-	cin >> width;
+	cout << "Please enter the width and height of your level: ";
+	cin >> width >> height;
 
-	cout << "Please enter the height of your level: ";
-	cin >> height;
 }
 
 void DisplayLevel(char* pLevel, int width, int height, int cursorX, int cursorY) {
@@ -188,6 +286,52 @@ int GetIndexFromXY(int x, int y, int width) {
 }
 
 
+void AddBordersToFinalLevel(char* levelData, int width, int height){
+	//Top Left border
+	int index = GetIndexFromXY(0, 0, width);
+	levelData[index] = '+';
+
+	//Top Right Border
+	index = GetIndexFromXY(width, 0, width);
+	levelData[index] = '+';
+
+	//Bottom Left border
+	index = GetIndexFromXY(0, height, width);
+	levelData[index] = '+';
+
+	//Bottom Right border
+	index = GetIndexFromXY(width, height, width);
+	levelData[index] = '+';
+
+	// Top Border
+	for (int i = 0; i < width; i++)
+	{
+		index = GetIndexFromXY(i, 0, width);
+		levelData[index] = '-';
+	}
+
+	// Bottom Border
+	for (int i = 0; i < width; i++)
+	{
+		index = GetIndexFromXY(i, height, width);
+		levelData[index] = '-';
+	}
+
+	//Left Border 
+	for (int i = 0; i < width; i++)
+	{
+		index = GetIndexFromXY(0, i, width);
+		levelData[index] = '|';
+	}
+
+	//Right Border
+	for (int i = 0; i < width; i++)
+	{
+		index = GetIndexFromXY(width, i, width);
+		levelData[index] = '|';
+	}
+}
+
 void DisplayTopBorder(int width) {
 	cout << kTopLeftBorder;
 	for (int i = 0; i < width; i++)
@@ -216,6 +360,8 @@ void DisplayRightBorder() {
 }
 
 void SaveLevel(char* pLevel, int width, int height) {
+	AddBordersToFinalLevel(pLevel, width, height);
+	
 	cout << "Please enter a name for the level (eg: level1.txt): ";
 	
 	string levelName;
