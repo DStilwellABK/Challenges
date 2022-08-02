@@ -85,8 +85,10 @@ bool Game::HandleCollision(int newPlayerX, int newPlayerY) {
         // Setup status of the previosu button if it was toggable
         if (previousButtonPressed != nullptr) {
             previousButtonPressed->m_doorToOpen.ToggleDoor(false);
+            previousButtonPressed->SetButtonStatus(false);
+         
+            // Finished with the previous button, now we cant set this to null
             previousButtonPressed = nullptr;
-            previousButtonPressed->SetButtonStatus(true);
         }
 
 

@@ -116,6 +116,7 @@ int main()
 
 	SaveLevel(pLevel, levelWidth, levelHeight);
 
+
 	delete[] pLevel;
 	pLevel = nullptr;
 }
@@ -265,6 +266,7 @@ void DisplayLevel(char* pLevel, int width, int height, int cursorX, int cursorY)
 
 	for (int y = 0; y < height; y++)
 	{
+
 		DisplayLeftBorder();
 		for (int x = 0; x < width; x++)
 		{
@@ -290,18 +292,18 @@ int GetIndexFromXY(int x, int y, int width) {
 void AddBordersToFinalLevel(char* levelData, int width, int height){
 	//Top Left border
 	int index = GetIndexFromXY(0, 0, width);
-	levelData[index] = '+';
+	levelData[0] = '+';
 
 	//Top Right Border
-	index = GetIndexFromXY(width, 0, width);
+	index = GetIndexFromXY(width-1, 0, width);
 	levelData[index] = '+';
-
+	
 	//Bottom Left border
-	index = GetIndexFromXY(0, height, width);
+	index = GetIndexFromXY(0, height-1, width);
 	levelData[index] = '+';
 
 	//Bottom Right border
-	index = GetIndexFromXY(width, height, width);
+	index = GetIndexFromXY(width-1, height-1, width);
 	levelData[index] = '+';
 
 	// Top Border
@@ -313,26 +315,23 @@ void AddBordersToFinalLevel(char* levelData, int width, int height){
 		levelData[index] = '-';
 	}
 
-	// Bottom Border
+	//TODO: This is causing corrupted data because 
+	//// Bottom Border
 	for (int i = 0; i < width; i++)
 	{
-		index = GetIndexFromXY(i, height, width);
+		index = GetIndexFromXY(i, height-1, width);
 		levelData[index] = '-';
 	}
 
-	//Left Border 
-	for (int i = 0; i < width; i++)
-	{
-		index = GetIndexFromXY(0, i, width);
-		levelData[index] = '|';
-	}
+	////Left Border 
 
-	//Right Border
-	for (int i = 0; i < width; i++)
-	{
-		index = GetIndexFromXY(width, i, width);
-		levelData[index] = '|';
-	}
+
+	////Right Border
+	//for (int i = 0; i < width; i++)
+	//{
+	//	index = GetIndexFromXY(width-1, i, width);
+	//	levelData[index] = '|';
+	//}
 }
 
 void DisplayTopBorder(int width) {
