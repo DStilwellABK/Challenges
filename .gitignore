@@ -396,3 +396,15 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+Other/GameBundle/GameBundle.sln
+Other/GameBundle/GameBundle/Card.h
+Other/GameBundle/GameBundle/GameBundle.cpp
+Other/GameBundle/GameBundle/GameBundle.vcxproj
+Other/GameBundle/GameBundle/GameBundle.vcxproj.filters
+Other/GameBundle/GameBundle/Player.h
+Other/GameBundle_v1.2/GameBundle_v1.2.sln
+Other/GameBundle_v1.2/GameBundle_v1.2/Card.h
+Other/GameBundle_v1.2/GameBundle_v1.2/GameBundle.cpp
+Other/GameBundle_v1.2/GameBundle_v1.2/GameBundle_v1.2.vcxproj
+Other/GameBundle_v1.2/GameBundle_v1.2/GameBundle_v1.2.vcxproj.filters
+Module 3/Algorithm/List.h
