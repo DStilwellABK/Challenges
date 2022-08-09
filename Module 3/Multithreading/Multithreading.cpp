@@ -33,11 +33,11 @@ int main()
 {
 	heapInt = 1;
 	cout << "Hello World!\n" << endl;
-	std::thread Dice_thread_1(Dice1);
-	std::thread Dice_thread_2(Dice2);
+	thread Dice_thread_1(Dice1);
+	thread Dice_thread_2(Dice2);
 
 	char UserInput;
-	
+
 	bool DidQuit = false;
 	while (!DidQuit) {
 		system("cls");
